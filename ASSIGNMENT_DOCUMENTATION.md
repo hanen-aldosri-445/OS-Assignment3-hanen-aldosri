@@ -107,7 +107,10 @@ Document your development process with **minimum 3 entries** showing progression
 
 **Your Answer**:
 
-[Your answer here - 4-6 sentences with code examples]
+[One race condition occurs when multiple threads try to update the ready queue at the same time. The shared resource here is the ready queue, and concurrent access can cause inconsistent order or lost processes. For example, two threads may try to add or remove processes at the same time, leading to incorrect scheduling behavior.
+
+Another race condition happens when updating shared variables like remaining time or counters. The shared resource is the process state or counters, and concurrent access may result in incorrect values. For example, one thread may overwrite another thread’s update, causing wrong execution results or statistics.
+]
 
 ---
 
@@ -116,7 +119,7 @@ Document your development process with **minimum 3 entries** showing progression
 
 **Your Answer**:
 
-[Your answer here - explain your implementation choices]
+[ReentrantLock is used to protect shared data by allowing only one thread to access a critical section at a time, while Semaphore is used to control access to a resource by multiple threads. In my code, I used Semaphore to control access to the CPU so only one process runs at a time. I used ReentrantLock to protect shared resources like the ready queue and process data. I chose this because Semaphore is suitable for resource control, while Lock is better for protecting critical sections.]
 
 ---
 
@@ -125,7 +128,7 @@ Document your development process with **minimum 3 entries** showing progression
 
 **Your Answer**:
 
-[Your answer here - reference try-finally blocks, lock ordering, etc.]
+[Deadlock is a situation where two or more threads are waiting for each other indefinitely and none can continue execution. One prevention technique is using a consistent lock ordering, so threads always acquire locks in the same order. Another technique is using try-finally blocks to ensure locks are always released. In my code, I used locks carefully and released them in finally blocks to avoid holding locks forever. This helped prevent deadlocks during execution.]
 
 ---
 
@@ -138,7 +141,9 @@ Document your development process with **minimum 3 entries** showing progression
 
 **Your Answer**:
 
-[Your answer here - explain coarse-grained vs fine-grained locking, independence of counters, concurrency implications. Show understanding of when to use each approach. 5-8 sentences expected.]
+[I used separate locks for each counter (fine-grained locking). I chose this approach because the three counters are independent, so each one can be updated without affecting the others. This improves concurrency because multiple threads can update different counters at the same time.
+
+The trade-off is that fine-grained locking is more complex to manage compared to using one lock for all counters. Coarse-grained locking is simpler but reduces performance because only one thread can access all counters at once. Since the counters are independent, fine-grained locking provides better concurrency and efficiency in this case.]
 
 ---
 
