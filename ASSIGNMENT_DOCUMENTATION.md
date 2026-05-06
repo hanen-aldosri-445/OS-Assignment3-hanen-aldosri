@@ -350,7 +350,7 @@ Printing systems: When several users send print jobs to the same printer, synchr
 **Repository URL**: 
 
 **Number of commits**: 
-
+14 commits
 **Commit messages**: 
 1. 
 2. 
@@ -362,15 +362,17 @@ Printing systems: When several users send print jobs to the same printer, synchr
 ## Summary
 
 **Total time spent on assignment**: 
-
+Around 8–10 hours
 **Key takeaways**: 
-1. 
-2. 
-3. 
+1.Importance of synchronization
+2.How to avoid race conditions
+3.Using mutex and semaphores
+
 
 **Most challenging aspect**: 
-
+Identifying critical sections in the code
 **What I'm most proud of**: 
+Successfully implementing synchronization without errors
 
 ---
 
