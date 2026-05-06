@@ -151,77 +151,108 @@ The trade-off is that fine-grained locking is more complex to manage compared to
 
 ### Critical Section #1: Counter Variables
 
-**Which variables**: 
+**Which variables**: contextSwitchCount
+completedProcessCount
+totalWaitingTime
 
-**Why they need protection**: 
+**Why they need protection**: These variables are shared among multiple threads and are updated concurrently inside methods like:
+incrementContextSwitch()
+incrementCompletedProcess()
+addWaitingTime()
+Without synchronization, race conditions may occur, leading to incorrect results.
 
-**Synchronization mechanism used**: 
+**Synchronization mechanism used**: ReentrantLock
+(contextSwitchLock, completedProcessLock, waitingTimeLock)
 
 **Code snippet**:
 ```java
 // Paste your implementation here
-```
+```contextSwitchLock.lock();
+try { contextSwitchCount++; }
+finally { contextSwitchLock.unlock(); }
 
-**Justification**: 
+completedProcessLock.lock();
+try { completedProcessCount++; }
+finally { completedProcessLock.unlock(); }
+
+waitingTimeLock.lock();
+try { totalWaitingTime += time; }
+finally { waitingTimeLock.unlock(); }
+
+**Justification**: Each variable is protected by its own lock to ensure thread-safe updates and better concurrency (fine-grained locking).
 
 ---
 
 ### Critical Section #2: Execution Log
 
-**What resource**: 
+**What resource**: executionLog (ArrayList)
 
-**Why it needs protection**: 
+**Why it needs protection**:
+Multiple threads call:
+executionLog.add(message);
+and since ArrayList is not thread-safe, this may cause inconsistent or 
+corrupted data. 
 
 **Synchronization mechanism used**: 
+ReentrantLock (logLock)
 
 **Code snippet**:
 ```java
 // Paste your implementation here
 ```
+logLock.lock();
+try { executionLog.add(message); }
+finally { logLock.unlock(); }
 
 **Justification**: 
-
+The lock ensures that only one thread writes to the log at a time, preserving data integrity.
 ---
 
 ### Critical Section #3: CPU Semaphore
 
 **Purpose of semaphore**: 
+To control access to the CPU so that only one process executes at a time.
 
 **Number of permits and why**: 
+public static final Semaphore cpuSemaphore = new Semaphore(1);
+1 permit → represents a single CPU
 
 **Where implemented**: 
+Inside run() method in Process class
 
 **Code snippet**:
 ```java
 // Paste your implementation here
 ```
+SharedResources.cpuSemaphore.acquire();
+try {
+    // process execution
+} finally {
+    SharedResources.cpuSemaphore.release();
+}
 
 **Effect on program behavior**: 
+Ensures that only one process uses the CPU at a time, preventing conflicts and simulating real CPU scheduling.
 
 ---
 
 ## Part 4: Testing and Verification (2 marks)
 
 ### Test 1: Consistency Check
-**What I tested**: Running program multiple times to verify consistent results
+**What I tested**: 
 
 **Testing procedure**: 
-```bash
-# Commands used (run the program at least 5 times)
-```
 
 **Results**: 
-(Show that running multiple times produces consistent, correct results)
 
 **Why synchronization is necessary**: 
-(Explain what race conditions COULD occur without synchronization, even if you didn't observe them. Explain which shared resources need protection and why.)
 
 **Conclusion**: 
 
 ---
 
 ### Test 2: Exception Testing
-**What I tested**: Checking for ConcurrentModificationException
+**What I tested**: 
 
 **Testing procedure**: 
 
