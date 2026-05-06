@@ -240,48 +240,82 @@ Ensures that only one process uses the CPU at a time, preventing conflicts and s
 
 ### Test 1: Consistency Check
 **What I tested**: 
+Running the program multiple times to verify consistent results
 
 **Testing procedure**: 
+I ran the program 5 times using:
+
+javac SchedulerSimulationSync.java
+java SchedulerSimulationSync
+java SchedulerSimulationSync
+java SchedulerSimulationSync
+java SchedulerSimulationSync
+java SchedulerSimulationSync
 
 **Results**: 
+In all runs:
+The program executed correctly without errors
+The number of completed processes was always correct
+No missing or duplicated log entries
+Values like contextSwitchCount and totalWaitingTime were reasonable and consistent (no abnormal values)
 
 **Why synchronization is necessary**: 
+Even if errors did not appear every time, race conditions could occur without synchronization:
+Multiple threads may update contextSwitchCount, completedProcessCount, and totalWaitingTime at the same time → leading to incorrect values
+Multiple threads writing to executionLog (ArrayList) could corrupt the data or cause runtime errors
+Without cpuSemaphore, more than one process could access the CPU simultaneously, breaking the scheduling logic
 
 **Conclusion**: 
-
+Synchronization ensures stable, correct, and consistent results across multiple executions.
 ---
 
 ### Test 2: Exception Testing
 **What I tested**: 
-
+Checking for ConcurrentModificationException.
 **Testing procedure**: 
+I ran the program multiple times under normal conditions
+Observed logging behavior where multiple threads write to executionLog
 
 **Results**: 
+No ConcurrentModificationException occurred
+The program ran smoothly every time
 
 **What this proves**: 
-
+Using ReentrantLock (logLock) successfully protects the executionLog, ensuring thread-safe operations and preventing concurrent modification issues.
 ---
 
 ### Test 3: Correctness Verification
-**What I tested**: Verifying correct final values (total burst time, context switches, etc.)
+**What I tested**: Verifying correct final values such as:
+Total burst time
+Number of completed processes
+Context switches
 
 **Expected values**: 
+All processes should complete execution
+completedProcessCount should equal total number of processes
+contextSwitchCount should reflect actual switching behavior
+totalWaitingTime should be a positive and logical value
 
 **Actual values**: 
+All processes completed successfully
+Counters matched expected behavior
+No negative or incorrect values observed
 
 **Analysis**: 
-
+The synchronization mechanisms (locks + semaphore) ensured accurate updates of shared variables, resulting in correct final outputs.
 ---
 
 ### Test 4: Different Scenarios
-**Scenario tested**: [e.g., different time quantum, more processes, etc.]
+**Scenario tested**: [Changing time quantum and number of processes.]
 
 **Purpose**: 
-
+To verify that the scheduler works correctly under different conditions and workloads.
 **Results**: 
-
+The program adapted correctly to different inputs
+Scheduling behavior changed as expected (more context switches with smaller quantum)
+No errors or inconsistencies occurred
 **What I learned**: 
-
+The synchronization design is robust and works correctly under different scenarios, ensuring safe concurrent execution and accurate scheduling.
 ---
 
 ## Part 5: Reflection and Learning
