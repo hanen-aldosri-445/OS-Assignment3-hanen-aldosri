@@ -31,55 +31,56 @@
 
 Document your development process with **minimum 3 entries** showing progression:
 
-### Entry 1 - [Date, Time]
-**What I implemented**: 
+### Entry 1 - [30 April, 10:00 PM]
+**What I implemented**: I started the project by implementing the basic idea of Round Robin scheduling. I created processes (threads), assigned burst time, and added them to the ready queue.
 
-**Challenges encountered**: 
+**Challenges encountered**: I had difficulty understanding how processes move in the queue and how they return after execution.
 
-**How I solved it**: 
+**How I solved it**: I reviewed examples and followed the process flow step by step until I understood it.
 
-**Testing approach**: 
+**Testing approach**: I ran the program and observed the execution order of processes.
 
-**Time spent**: 
 
----
-
-### Entry 2 - [Date, Time]
-**What I implemented**: 
-
-**Challenges encountered**: 
-
-**How I solved it**: 
-
-**Testing approach**: 
-
-**Time spent**: 
+**Time spent**: About 3 hours.
 
 ---
 
-### Entry 3 - [Date, Time]
-**What I implemented**: 
+### Entry 2 - [1 May, 4:30 AM]
+**What I implemented**: I added a Semaphore to control access to the CPU so only one process runs at a time
 
-**Challenges encountered**: 
+**Challenges encountered**: There was a conflict between processes (race condition).
 
-**How I solved it**: 
+**How I solved it**:I used a Semaphore to make sure only one process accesses the CPU. 
 
-**Testing approach**: 
+**Testing approach**:  tested with multiple processes running at the same time.
 
-**Time spent**: 
+**Time spent**: About 2 hours
 
 ---
 
-### Entry 4 - [Date, Time]
-**What I implemented**: 
+### Entry 3 - [2 May, 7:00 PM]
+**What I implemented**: I added a ReentrantLock to protect shared data like the ready queue and process states.
 
-**Challenges encountered**: 
+**Challenges encountered**: Shared data was getting incorrect due to multiple threads accessing it.
 
-**How I solved it**: 
+**How I solved it**: I used a lock before modifying shared data and released it after finishing
 
-**Testing approach**: 
+**Testing approach**:I monitored values during execution to make sure they were correct. 
 
-**Time spent**: 
+**Time spent**:About 2 hours. 
+
+---
+
+### Entry 4 - [6 May, 2:00 AM]
+**What I implemented**:I completed the project by adding statistics like completed processes, waiting time, and context switching.
+ 
+**Challenges encountered**:It was difficult to calculate some values accurately during execution 
+
+**How I solved it**:I modified the code several times and tested with different inputs until results were correct. 
+
+**Testing approach**:I compared the output with expected Round Robin behavior. 
+
+**Time spent**: About 2–3 hours.
 
 ---
 
