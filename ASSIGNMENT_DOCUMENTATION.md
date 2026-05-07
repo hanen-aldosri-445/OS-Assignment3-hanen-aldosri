@@ -353,10 +353,10 @@ Printing systems: When several users send print jobs to the same printer, synchr
 14 commits
 
 **Commit messages**: 
-1. 
-2. 
-3. 
-4. 
+1.adding synchronization mechanisms 
+2. Update development log entries with dates and details
+3. adding waiting tim
+4.Set my student ID: 445052141 
 
 ---
 
